@@ -15,3 +15,6 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 + finalize what end product vision should be (in progress)
 + for line viz add smoothing for jumps in time
 + figure out how exactly supervised algo will work
++ possible feature for predict: release date of album/new song
+
+### ideas for final product
