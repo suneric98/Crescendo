@@ -1,17 +1,50 @@
 <!DOCTYPE html>
+<style>
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        max-width: 100px;
+        min-width: 40px;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: lightskyblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+    }
+</style>
 
 <html>
-    <head>
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
 
-    <body>
-        <script>
-            d3.csv("../data/topChartWithFeatures.csv").then(function(data){
-                console.log(data);
-            });
-        </script>
-    </body>
+<head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="histogram"></div>
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            <label for="formSelect mx-sm-3 mb-2">Sort by </label>
+            <select class="form-control" id="formSelect">
+                <option>Artist</option>
+                <option>Song</option>
+            </select>
+        </div>
+        <div class="form-group mb-2">
+            <label for="filterSelect mx-sm-3 mb-2"></label>
+            <select class="form-control" id="filterSelect">
+            </select>
+        </div>
+        <!-- <div class="form-group mx-sm-3 mb-2">
+            <label for="searchInput" class="sr-only">Search</label>
+            <input class="form-control" id="searchInput" placeholder="Search">
+        </div> -->
+        <button id="filterButton" type="submit" class="btn btn-primary mb-2">Filter</button>
+    </div>
+    <div id="line_graph"></div>
+    <script src="vis.js"></script>
+</body>
+
 </html>
