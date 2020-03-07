@@ -9,6 +9,13 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 ### 2/29
 + Eric: made viz with selections for artists and songs showing rank over time,
   performed basic data exploration
++ Eric: got artists data and did basic exploration with it
+
+### 2/29 TODO
++ Clustering stuff: try to group songs/artists by genre using artist
+  genre
+  + Need to group genres so we don't have 300+ genres
+  + 
 
 
 ### TODO:
@@ -17,4 +24,6 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 + figure out how exactly supervised algo will work
 + possible feature for predict: release date of album/new song
 
+
 ### ideas for final product
++ 
