@@ -32,6 +32,18 @@ number of days a song remains in top chart
 
 + Eric: improve regression model for num of days
 
+### 3/11 Meeting
+
+Agenda
+
++ Everyone update README
++ No presentation Saturday!
++ What has everyone done: Clustering, LR for trend, regression for day
+  prediction
++ Work TODO
+  + Finish clustering and stuff soon
+  + Improve ML predictions
+
 ### TODO:
 
 + for line viz add smoothing for jumps in time
