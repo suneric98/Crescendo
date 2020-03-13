@@ -18,6 +18,7 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 + Kathy: built a linear regression model to predict the rank of a song based on
 the number of streams
 + Chris: clustered songs in dataset based on scaled continuous features; wrote functions to faciliate access of artists and songs in each cluster
++ Angela: Made exploration data visualization (2-D scatterplot, 3-D scatterplot, bar graph).  
 
 ### 2/29 TODO
 
@@ -30,6 +31,7 @@ the number of streams
 + Eric: grouped artist data together, began working on regression prediction for
 number of days a song remains in top chart
 + Chris: modularized clustering notebook file
++ Angela: Gained knowledge about clustering KNN, Kmeans, neural networks, linear regression. 
 
 ### 3/7 TODO
 
@@ -50,6 +52,7 @@ Agenda
 ### 3/14
 
 + Chris: wrote functions to assign genres to songs in each cluster based on genres of artists in cluster; experimented with various labeling methods
++ Angela: Developed understanding of the models used for rank predication. Also attended D3 onboarding workshop.
 
 ### TODO:
 
