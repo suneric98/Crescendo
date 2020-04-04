@@ -60,3 +60,14 @@ Agenda
   + Add legend to viz
 + figure out how exactly supervised algo will work (in progress)
 + possible feature for predict: release date of album/new song
+
+### End goal:
+
++ 2 Machine Learning Algorithms
+  + 1 to predict the number of days a song is in the top charts
+  + 1 to predict the trend of that (a linear regression line of best fit)
++ Clustering and genre assignment: an algorithm to assign a genre to a song using k-means to determine similar songs and the artists genres
++ An infographic with visualizations in D3 to show our findings interactively
+  + Probably will have an infographic for each algorithm we made
+  + To be determined: work will mostly be done in the last month and will have
+    lots of room to tweak and adjust as we see fit
