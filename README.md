@@ -54,6 +54,23 @@ Agenda
 + Chris: wrote functions to assign genres to songs in each cluster based on genres of artists in cluster; experimented with various labeling methods
 + Angela: Developed understanding of the models used for rank predication. Also attended D3 onboarding workshop.
 
+## Post Break Journal
+
+### 4/4
+
++ Eric: made neural network to predict the number of days song stays in top chart
+
+### 4/11
+
++ Edited chris' model to predict "grouping" of how long song stays in top chart,
+  didn't get great results
+
+### 4/18
+
++ Eric: began flask app for visualizations
+
+### 4/25
+
 ### TODO:
 
 + for line viz add smoothing for jumps in time
