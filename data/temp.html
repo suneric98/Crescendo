@@ -5,6 +5,27 @@
   <script src = "https://d3js.org/d3.v5.min.js"></script>
 </head>
 
+<style>
+
+  text, .tooltip {
+    font-family: sans-serif;
+    font-size: 10pt;
+  }
+  
+
+  .tooltip {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 8px;
+    background: #ddd;
+    pointer-events: none;
+    border: 1px solid #eee;
+    border-radius: 10px;
+  }
+  </style>
+
+
 <body>
   <h1> title</h1>  
   <svg width="800" height="800"></svg>
@@ -68,7 +89,7 @@
       chartArea.append("g").attr("id", "annotation");
       
       circles = d3.selectAll("circle");
-      annotations = d3.selectAll("annotation");
+      annotations = d3.selectAll("g#annotation");
       
       console.log(circles)
       
