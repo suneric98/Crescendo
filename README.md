@@ -63,7 +63,7 @@ Agenda
 + Chris: developed regression and classification models to predict how long a song stays in the top charts; 
 ### 4/11
 
-+ Edited chris' model to predict "grouping" of how long song stays in top chart,
++ Eric: Edited chris' model to predict "grouping" of how long song stays in top chart,
   didn't get great results
 + Chris: for classification models, attempted class balancing via oversampling/undersampling but still unable to beat baseline accuracy; 
 implemented boosting methods to increase accuracy with little improvement
@@ -73,6 +73,9 @@ implemented boosting methods to increase accuracy with little improvement
 + Eric: began flask app for visualizations
 
 ### 4/25
+
++ Eric: continued implementing flask app with work done over the semester,
+  planning to have a vis for Kathy's work
 
 ### TODO:
 
