@@ -36,6 +36,7 @@ number of days a song remains in top chart
 ### 3/7 TODO
 
 + Eric: improve regression model for num of days
++ Chris: ran PCA on features and clustered on resulting data
 
 ### 3/11 Meeting
 
@@ -53,6 +54,28 @@ Agenda
 
 + Chris: wrote functions to assign genres to songs in each cluster based on genres of artists in cluster; experimented with various labeling methods
 + Angela: Developed understanding of the models used for rank predication. Also attended D3 onboarding workshop.
+
+## Post Break Journal
+
+### 4/4
+
++ Eric: made neural network to predict the number of days song stays in top chart
++ Chris: developed regression and classification models to predict how long a song stays in the top charts; 
+### 4/11
+
++ Eric: Edited chris' model to predict "grouping" of how long song stays in top chart,
+  didn't get great results
++ Chris: for classification models, attempted class balancing via oversampling/undersampling but still unable to beat baseline accuracy; 
+implemented boosting methods to increase accuracy with little improvement
+
+### 4/18
+
++ Eric: began flask app for visualizations
+
+### 4/25
+
++ Eric: continued implementing flask app with work done over the semester,
+  planning to have a vis for Kathy's work
 
 ### TODO:
 

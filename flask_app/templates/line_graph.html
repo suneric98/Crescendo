@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  div.tooltip {
+    position: absolute;
+    background-color: darkblue;
+    fill: none;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: left;
+    color: white;
+  }
+
+  /* .overlay {
+        fill: none;
+        pointer-events: all;
+    } */
+</style>
+
+<head>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+  <div id="histogram"></div>
+  <div class="form-inline">
+    <div class="form-group mb-2">
+      <label for="formSelect mx-sm-3 mb-2">Sort by </label>
+      <select class="form-control" id="formSelect">
+        <option>Artist</option>
+        <option>Song</option>
+      </select>
+    </div>
+    <div class="form-group mb-2">
+      <label for="filterSelect mx-sm-3 mb-2"></label>
+      <select class="form-control" id="filterSelect">
+      </select>
+    </div>
+    <button id="filterButton" type="submit" class="btn btn-primary mb-2">Filter</button>
+  </div>
+  <div id="line_graph"></div>
+  <script type="text/javascript">
+    var chartData = {{ data.chart_data | safe }};
+  </script>
+  <script src="{{ url_for('static', filename='vis.js') }}"></script>
+</body>
+
+</html>
