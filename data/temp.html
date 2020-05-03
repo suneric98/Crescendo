@@ -97,7 +97,6 @@
       circles = d3.selectAll("circle");
       annotations = d3.selectAll("g#annotation");
       
-      console.log(circles)
       
       circles.on("mouseover.highlight", function(d) { 
         d3.select(this)
@@ -109,7 +108,7 @@
         d3.select(this).style("stroke", null);
       });
       
-      circles.on("mouseover.hover", function(d) {
+      circles.on("mouseover", function(d) {
         let me = d3.select(this);
         let div = d3.select("body").append("div");
         
@@ -118,7 +117,7 @@
         
         let rows = div.append("table")
         .selectAll("tr")
-        .data(Object.keys(d).slice(1))
+        .data(Object.keys(d).slice(1,3).concat(Object.keys(d).slice(4,11)))
         .enter()
         .append("tr");
         
@@ -126,7 +125,7 @@
         rows.append("td").text(key => d[key]);
       });
       
-      circles.on("mousemove.hover", function(d) {
+      circles.on("mousemove", function(d) {
         let div = d3.select("div#details");
         
         // get height of tooltip
@@ -135,25 +134,25 @@
         div.style("left", d3.event.clientX + "px")
         div.style("top",  (d3.event.clientY - bbox.height) + "px");
       })
-      circles.on("mouseout.hover2", function(d) {
+      circles.on("mouseout", function(d) {
         d3.selectAll("div#details").remove();
       });
       
       
-      circles.on("mouseover.brush1", function() {
-        circles.style("opacity",.1);
-        let c = d3.select(this).attr("class");
-        d3.selectAll("." + c).transition().style("opacity", .8);
-      });
-      circles.on("mouseout.brush1", function() {
-        circles.transition().style("opacity",.8);
-      });
-      // circles.on("mouseover.brush1", function(d) {
-        //   circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
-        // });
-        // circles.on("mouseout.brush1", function(d) {
-          //   circles.transition().style("fill", d => color(d.Label));
-          // });
+      // circles.on("mouseover.brush1", function() {
+      //   circles.style("opacity",.1);
+      //   let c = d3.select(this).attr("class");
+      //   d3.selectAll("." + c).transition().style("opacity", .8);
+      // });
+      // circles.on("mouseout.brush1", function() {
+      //   circles.transition().style("opacity",.8);
+      // });
+      circles.on("mouseover.brush1", function(d) {
+          circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
+        });
+        circles.on("mouseout.brush1", function(d) {
+            circles.transition().style("fill", d => color(d.Label));
+          });
           
           
           
