@@ -6,13 +6,13 @@
 </head>
 
 <style>
-
+  
   text, .tooltip {
     font-family: sans-serif;
     font-size: 10pt;
   }
   
-
+  
   .tooltip {
     position: absolute;
     width: auto;
@@ -23,7 +23,7 @@
     border: 1px solid #eee;
     border-radius: 10px;
   }
-  </style>
+</style>
 
 
 <body>
@@ -44,6 +44,11 @@
     const drawPlot = async () => {
       let data = await d3.csv("TopCharts_clustered.csv");
       data.forEach((d,i) => {
+        d.Tempo = Number(d.Tempo).toFixed(3);
+        d.Valence = Number(d.Valence).toFixed(3);
+        d.Danceability = Number(d.Danceability).toFixed(3);
+        d.Energy = Number(d.Energy).toFixed(3);
+        d.Acousticness = Number(d.Acousticness).toFixed(3);
         d.pc1 = Number(d.pc1);
         d.pc2 = Number(d.pc2);
         d.Label = Number(d.Label)
@@ -84,6 +89,7 @@
       .attr("cy", d => yScale(d['pc2']))
       .attr("r", radius)
       .attr("opacity", 0.8)
+      .attr("class", d => "Cluster" + d.Label)
       .style("fill", d => color(d.Label));
       
       chartArea.append("g").attr("id", "annotation");
@@ -112,7 +118,7 @@
         
         let rows = div.append("table")
         .selectAll("tr")
-        .data(Object.keys(d))
+        .data(Object.keys(d).slice(1))
         .enter()
         .append("tr");
         
@@ -132,57 +138,66 @@
       circles.on("mouseout.hover2", function(d) {
         d3.selectAll("div#details").remove();
       });
-      circles.on("mouseover.brush1", function(d) {
-        circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
-        
-        // show what we interacted with
-      })
-      circles.on("mouseout.brush1", function(d) {
-        circles.transition().style("fill", d => color(d.Label));
+      
+      
+      circles.on("mouseover.brush1", function() {
+        circles.style("opacity",.1);
+        let c = d3.select(this).attr("class");
+        d3.selectAll("." + c).transition().style("opacity", .8);
       });
-
-      
-      
-      
-      
-      
-      var plotZoom = d3.zoom().on("zoom", plotZoomed);
-      
-      plot.call(plotZoom);
-      
-      function plotZoomed() {
-        let transform = d3.event.transform;
+      circles.on("mouseout.brush1", function() {
+        circles.transition().style("opacity",.8);
+      });
+      // circles.on("mouseover.brush1", function(d) {
+        //   circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
+        // });
+        // circles.on("mouseout.brush1", function(d) {
+          //   circles.transition().style("fill", d => color(d.Label));
+          // });
+          
+          
+          
+          
+          
+          
+          
+          var plotZoom = d3.zoom().on("zoom", plotZoomed);
+          
+          plot.call(plotZoom);
+          
+          function plotZoomed() {
+            let transform = d3.event.transform;
+            
+            g.attr("transform", d3.event.transform);
+            
+            // rescale does not modify the source scale
+            yAxis.scale(transform.rescaleY(yScale))
+            xAxis.scale(transform.rescaleX(xScale))
+            
+            // apply new scaled axes (no need for transition since zoom triggers so many events)
+            d3.select("g.y.axis").call(yAxis);
+            d3.select("g.x.axis").call(xAxis);
+          }
+          
+          // get rid of circles all over the place with a clip-path
+          // region that is "filled" within the <clipPath> will stay, pixels outside of it will be deleted
+            plot.append("defs").append("clipPath")
+            .attr("id","chartClip")
+            .append("rect").attr("x",0)
+            .attr("y",0)
+            .attr("width",chartWidth)
+            .attr("height",chartHeight);
+            
+            chartArea.attr("clip-path","url(#chartClip)");
+            
+            
+            
+            
+          }
+          drawPlot();
+          
+          
+        </script>
         
-        g.attr("transform", d3.event.transform);
-        
-        // rescale does not modify the source scale
-        yAxis.scale(transform.rescaleY(yScale))
-        xAxis.scale(transform.rescaleX(xScale))
-        
-        // apply new scaled axes (no need for transition since zoom triggers so many events)
-        d3.select("g.y.axis").call(yAxis);
-        d3.select("g.x.axis").call(xAxis);
-      }
-      
-      // get rid of circles all over the place with a clip-path
-      // region that is "filled" within the <clipPath> will stay, pixels outside of it will be deleted
-        plot.append("defs").append("clipPath")
-        .attr("id","chartClip")
-        .append("rect").attr("x",0)
-        .attr("y",0)
-        .attr("width",chartWidth)
-        .attr("height",chartHeight);
-        
-        chartArea.attr("clip-path","url(#chartClip)");
-        
-        
-        
-        
-      }
-      drawPlot();
-      
-      
-    </script>
-    
-  </body>
-  </html>
+      </body>
+      </html>
