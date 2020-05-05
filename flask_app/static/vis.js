@@ -5,24 +5,11 @@ function drawData(data) {
 
     let artists = new Set();
     let songs = new Set();
-    let songDays = new Map();
     data.forEach(function (d) {
         let song = d["Song"];
         let artist = d["Artist"];
         songs.add(song);
         artists.add(artist);
-        let key = song + "/:/" + artist;
-        if (songDays.has(key)) {
-            let count = songDays.get(key);
-            songDays.set(key, count + 1);
-        } else {
-            songDays.set(key, 1);
-        }
-    });
-
-    let songNumDays = [];
-    songDays.forEach(function (value, key) {
-        songNumDays.push(value);
     });
 
     let width = 800;
@@ -65,6 +52,7 @@ function drawData(data) {
             }]
         }
     });
+    console.log(songLine);
 
     let lineSvg = d3.select("#line_graph")
         .append("svg")

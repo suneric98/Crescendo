@@ -60,7 +60,7 @@ Agenda
 ### 4/4
 
 + Eric: made neural network to predict the number of days song stays in top chart
-+ Chris: developed regression and classification models to predict how long a song stays in the top charts;
++ Chris: developed regression and classification models to predict how long a song stays in the top charts
 + Angela: Attended supervised learning workshop.
 ### 4/11
 
@@ -73,6 +73,7 @@ implemented boosting methods to increase accuracy with little improvement
 ### 4/18
 
 + Eric: began flask app for visualizations
++ Chris: finalized PCA clustering on songs
 
 ### 4/25
 
@@ -80,6 +81,12 @@ implemented boosting methods to increase accuracy with little improvement
   planning to have a vis for Kathy's work
 + Angela: trained a KNN algorithm to predict the song’s genre with the given features in the new kaggle dataset;
 preprocessed the kaggle dataset to create main groupings for genres, as dataset has overlap in genre labelling.
++ Chris: started d3 visualization for song clustering results
+
+
+### 4/25
+
++ Chris: clustered artists based on features derived from their songs
 
 ### TODO:
 
