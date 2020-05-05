@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <title> Clustered Artist</title>
+    <script src = "https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<style>
+    .heading {
+        color: white
+    }
+    .axis line{
+        stroke: white
+    }
+    .axis path{
+        stroke: white
+    }
+    text, .tooltip {
+        font-family: sans-serif;
+        font-size: 10pt;
+        color: white
+    }
+    
+    body{
+        background-color: black;
+    }
+    .tooltip {
+        position: absolute;
+        width: auto;
+        height: auto;
+        padding: 8px;
+        background: rgb(221, 221, 221);
+        pointer-events: none;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        color: black
+    }
+</style>
+
+
+<body>
+    <h1 class = 'heading'> Clustered Artists</h1>  
+    <svg width="800" height="800"></svg>
+    <script>
+        
+        const plot = d3.select("svg");
+        const width = plot.attr("width");
+        const height = plot.attr("height");
+        const margin = { top: 10, right: 10, bottom: 50, left:50};
+        const chartWidth = width - margin.left - margin.right; // If you know the key is fixed text, you can access it with . instead of [""]
+        const chartHeight = height - margin.top - margin.bottom;
+        const yAxisArea = plot.append("g")
+        .attr("transform","translate("+(margin.left-2)+","+margin.top+")")
+        .attr("class", "axis");
+        const xAxisArea = plot.append("g")
+        .attr("transform","translate("+margin.left+","+(chartHeight+2+margin.top)+")")
+        .attr("class", "axis");
+        const chartArea = plot.append("g").attr("transform","translate("+margin.left+","+margin.top+")");
+        
+        const drawPlot = async () => {
+            let data = await d3.csv("ArtistData_clustered_pca.csv");
+            data.forEach((d,i) => {
+                d.pc1 = Number(d.pc1);
+                d.pc2 = Number(d.pc2);
+                d.Label = Number(d.Label)
+            });
+            
+            
+            var categorical = [
+            { "name" : "schemeAccent", "n": 8},
+            { "name" : "schemeDark2", "n": 8},
+            { "name" : "schemePastel2", "n": 8},
+            { "name" : "schemeSet2", "n": 8},
+            { "name" : "schemeSet1", "n": 9},
+            { "name" : "schemePastel1", "n": 9},
+            { "name" : "schemeCategory10", "n" : 10},
+            { "name" : "schemeSet3", "n" : 12 },
+            { "name" : "schemePaired", "n": 12},
+            { "name" : "schemeCategory20", "n" : 20 },
+            { "name" : "schemeCategory20b", "n" : 20},
+            { "name" : "schemeCategory20c", "n" : 20 }
+            ]
+            
+            // var color= d3.scaleOrdinal(d3[categorical[0].name])
+            
+            var color = d3.scaleOrdinal()
+            .domain([0,1,2,3,4,5,6,7])
+            .range(["#1077b3","#f56c0a","#207537","#d11515", "#a300cc", "#95e600", "#fcff45", "#a62d65"]);
+            
+            var radius = 5;
+            
+            var pc1_max = 1.1*d3.max(data, function(d){return d.pc1;});
+            var pc1_min = 1.1*d3.min(data, function(d){return d.pc1;});
+            
+            var pc2_max = 1.1*d3.max(data, function(d){return d.pc2;});
+            var pc2_min = 1.1*d3.min(data, function(d){return d.pc2;});
+            
+            var xScale = d3.scaleLinear()
+            .domain([pc1_min, pc1_max])
+            .range([10, chartWidth-10]);
+            let xAxis = d3.axisBottom(xScale); 
+            xAxisArea.append("g").attr("class", "x axis").call(xAxis);
+            
+            var yScale = d3.scaleLinear()
+            .domain([pc2_min, pc2_max])
+            .range([chartHeight-10, 10]);
+            let yAxis = d3.axisLeft(yScale); 
+            yAxisArea.append("g").attr("class", "y axis").call(yAxis);      
+            
+            
+            const g = chartArea.append("g").attr("id", "circles");
+            
+            
+            g.selectAll("circle")
+            .data(data)
+            .join("circle")
+            .attr("cx", d => xScale(d['pc1']))
+            .attr("cy", d => yScale(d['pc2']))
+            .attr("r", radius)
+            .attr("opacity", 0.8)
+            .attr("class", d => "Cluster" + d.Label)
+            .style("fill", d => color(d.Label));
+            
+            chartArea.append("g").attr("id", "annotation");
+            
+            circles = d3.selectAll("circle");
+            annotations = d3.selectAll("g#annotation");
+            
+            
+            circles.on("mouseover.highlight", function(d) { 
+                d3.select(this)
+                .raise() // bring to front
+                .style("stroke", "red")
+                .style("stroke-width", 2);
+            });
+            circles.on("mouseout.highlight", function(d) {
+                d3.select(this).style("stroke", null);
+            });
+            
+            circles.on("mouseover", function(d) {
+                let me = d3.select(this);
+                let div = d3.select("body").append("div");
+                
+                div.attr("id", "details");
+                div.attr("class", "tooltip");
+                
+                let rows = div.append("table")
+                .selectAll("tr")
+                .data(Object.keys(d).slice(1,3))
+                .enter()
+                .append("tr");
+                
+                rows.append("th").text(key => key);
+                rows.append("td").text(key => d[key]);
+            });
+            
+            circles.on("mousemove", function(d) {
+                let div = d3.select("div#details");
+                
+                // get height of tooltip
+                let bbox = div.node().getBoundingClientRect();
+                
+                div.style("left", d3.event.clientX + "px")
+                div.style("top",  (d3.event.clientY - bbox.height) + "px");
+            })
+            circles.on("mouseout", function(d) {
+                d3.selectAll("div#details").remove();
+            });
+            
+            
+            circles.on("mouseover.brush1", function(d) {
+                circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
+            });
+            circles.on("mouseout.brush1", function(d) {
+                circles.transition().style("fill", d => color(d.Label));
+            });
+            
+            
+            
+            
+            
+            
+            
+            var plotZoom = d3.zoom().on("zoom", plotZoomed);
+            
+            plot.call(plotZoom);
+            
+            function plotZoomed() {
+                let transform = d3.event.transform;
+                
+                g.attr("transform", d3.event.transform);
+                
+                // rescale does not modify the source scale
+                yAxis.scale(transform.rescaleY(yScale))
+                xAxis.scale(transform.rescaleX(xScale))
+                
+                // apply new scaled axes (no need for transition since zoom triggers so many events)
+                d3.select("g.y.axis").call(yAxis);
+                d3.select("g.x.axis").call(xAxis);
+            }
+            
+            // get rid of circles all over the place with a clip-path
+            // region that is "filled" within the <clipPath> will stay, pixels outside of it will be deleted
+                plot.append("defs").append("clipPath")
+                .attr("id","chartClip")
+                .append("rect").attr("x",0)
+                .attr("y",0)
+                .attr("width",chartWidth)
+                .attr("height",chartHeight);
+                
+                chartArea.attr("clip-path","url(#chartClip)");
+                
+                
+                
+                
+            }
+            drawPlot();
+            
+            
+        </script>
+        
+    </body>
+    </html>

@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang = "en">
 <head>
-  <title> temp</title>
+  <title> Clustered Songs</title>
   <script src = "https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 <style>
-  
+  .heading {
+      color: white
+  }
+  .axis line{
+    stroke: white
+  }
+  .axis path{
+    stroke: white
+  }
   text, .tooltip {
-    font-family: sans-serif;
-    font-size: 10pt;
+      font-family: sans-serif;
+      font-size: 10pt;
+      color: white
   }
   
-  
+  body{
+      background-color: black;
+  }
   .tooltip {
-    position: absolute;
-    width: auto;
-    height: auto;
-    padding: 8px;
-    background: #ddd;
-    pointer-events: none;
-    border: 1px solid #eee;
-    border-radius: 10px;
+      position: absolute;
+      width: auto;
+      height: auto;
+      padding: 8px;
+      background: rgb(221, 221, 221);
+      pointer-events: none;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      color: black
   }
 </style>
 
 
+
 <body>
-  <h1> title</h1>  
+  <h1 class = 'heading'> Clustered Songs</h1>  
   <svg width="800" height="800"></svg>
   <script>
     
@@ -37,8 +50,12 @@
     const margin = { top: 10, right: 10, bottom: 50, left:50};
     const chartWidth = width - margin.left - margin.right; // If you know the key is fixed text, you can access it with . instead of [""]
     const chartHeight = height - margin.top - margin.bottom;
-    const yAxisArea = plot.append("g").attr("transform","translate("+(margin.left-2)+","+margin.top+")");
-    const xAxisArea = plot.append("g").attr("transform","translate("+margin.left+","+(chartHeight+2+margin.top)+")");
+    const yAxisArea = plot.append("g")
+    .attr("transform","translate("+(margin.left-2)+","+margin.top+")")
+    .attr("class", "axis");
+    const xAxisArea = plot.append("g")
+    .attr("transform","translate("+margin.left+","+(chartHeight+2+margin.top)+")")
+    .attr("class", "axis");
     const chartArea = plot.append("g").attr("transform","translate("+margin.left+","+margin.top+")");
     
     const drawPlot = async () => {
@@ -140,17 +157,17 @@
       
       
       // circles.on("mouseover.brush1", function() {
-      //   circles.style("opacity",.1);
-      //   let c = d3.select(this).attr("class");
-      //   d3.selectAll("." + c).transition().style("opacity", .8);
-      // });
-      // circles.on("mouseout.brush1", function() {
-      //   circles.transition().style("opacity",.8);
-      // });
-      circles.on("mouseover.brush1", function(d) {
-          circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
-        });
-        circles.on("mouseout.brush1", function(d) {
+        //   circles.style("opacity",.1);
+        //   let c = d3.select(this).attr("class");
+        //   d3.selectAll("." + c).transition().style("opacity", .8);
+        // });
+        // circles.on("mouseout.brush1", function() {
+          //   circles.transition().style("opacity",.8);
+          // });
+          circles.on("mouseover.brush1", function(d) {
+            circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");
+          });
+          circles.on("mouseout.brush1", function(d) {
             circles.transition().style("fill", d => color(d.Label));
           });
           
