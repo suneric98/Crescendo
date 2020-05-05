@@ -126,7 +126,7 @@
         rows.append("td").text(key => d[key]);
       });
       
-      circles.on("mousemove.hover", function(d) {
+      circles.on("mouseover", function(d) {
         let div = d3.select("div#details");
         
         // get height of tooltip
@@ -135,7 +135,7 @@
         div.style("left", d3.event.clientX + "px")
         div.style("top",  (d3.event.clientY - bbox.height) + "px");
       })
-      circles.on("mouseout.hover2", function(d) {
+      circles.on("mouseout", function(d) {
         d3.selectAll("div#details").remove();
       });
       
