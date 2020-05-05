@@ -31,6 +31,11 @@ function drawData(data) {
         let key = song + "/:/" + artist;
         if (key in songLine) {
             let date = d3.timeParse("%m/%d/%y")(d["Date"]);
+            // let currDates = songLine[key];
+            // let lastDate = currDates[currDates.length-1];
+            // if (date != lastDate + 1){
+
+            // }
             songLine[key].push({
                 "song": song,
                 "artist": artist,
