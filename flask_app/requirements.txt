@@ -2,3 +2,4 @@ pandas
 flask
 matplotlib
 flask-bootstrap
+flask-wtf

@@ -13,7 +13,7 @@ function drawData(data) {
     });
 
     let width = 800;
-    let height = 700;
+    let height = 600;
     let margins = {
         top: 20,
         right: 20,
@@ -57,8 +57,11 @@ function drawData(data) {
         .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
     songValues = Object.values(songLine)
+    console.log(songValues);
     const firstDate = songValues[0][0]["date"];
-    const lastDate = songValues[songValues.length - 1][0]["date"];
+    let lastSong = songValues[songValues.length - 1]
+    const lastDate = lastSong[lastSong.length - 1]["date"];
+    console.log(firstDate, lastDate)
     let dateScale = d3.scaleTime()
         .domain([firstDate, lastDate])
         .range([0, chartWidth]);
@@ -243,47 +246,50 @@ function drawData(data) {
         });
     }
 
-    let formSelect = document.getElementById("formSelect");
-    let filterSelect = document.getElementById("filterSelect");
+    lineFilter(filter=data[0]["Artist"], filterType="artist")
+    resizeGraph(firstDate, lastDate, reset=true)
 
-    function updateFilter() {
-        while (filterSelect.length > 0) {
-            filterSelect.remove(0);
-        }
-        if (formSelect.value.toLowerCase() == "artist") {
-            let artistsArray = Array.from(artists).sort(function (a, b) {
-                if (a.toLowerCase() < b.toLowerCase()) return -1;
-                if (a.toLowerCase() > b.toLowerCase()) return 1;
-                return 0;
-            });
-            artistsArray.forEach(function (artist) {
-                let option = document.createElement("option");
-                option.value = artist;
-                option.innerHTML = artist;
-                filterSelect.appendChild(option);
-            });
-        } else if (formSelect.value.toLowerCase() == "song") {
-            let songsArray = Array.from(songs).sort(function (a, b) {
-                if (a.toLowerCase() < b.toLowerCase()) return -1;
-                if (a.toLowerCase() > b.toLowerCase()) return 1;
-                return 0;
-            });
-            songsArray.forEach(function (song) {
-                let option = document.createElement("option");
-                option.value = song;
-                option.innerHTML = song;
-                filterSelect.appendChild(option);
-            });
-        }
-    }
-    updateFilter();
-    formSelect.addEventListener("change", updateFilter);
-    d3.select("#filterButton").on("click", function () {
-        if (isClicked) return;
-        line.selectAll(".line").remove();
-        lineFilter(filter = filterSelect.value, filterType = formSelect.value.toLowerCase());
-        resizeGraph(firstDate, lastDate, reset = true);
-    });
+    // let formSelect = document.getElementById("formSelect");
+    // let filterSelect = document.getElementById("filterSelect");
+
+    // function updateFilter() {
+    //     while (filterSelect.length > 0) {
+    //         filterSelect.remove(0);
+    //     }
+    //     if (formSelect.value.toLowerCase() == "artist") {
+    //         let artistsArray = Array.from(artists).sort(function (a, b) {
+    //             if (a.toLowerCase() < b.toLowerCase()) return -1;
+    //             if (a.toLowerCase() > b.toLowerCase()) return 1;
+    //             return 0;
+    //         });
+    //         artistsArray.forEach(function (artist) {
+    //             let option = document.createElement("option");
+    //             option.value = artist;
+    //             option.innerHTML = artist;
+    //             filterSelect.appendChild(option);
+    //         });
+    //     } else if (formSelect.value.toLowerCase() == "song") {
+    //         let songsArray = Array.from(songs).sort(function (a, b) {
+    //             if (a.toLowerCase() < b.toLowerCase()) return -1;
+    //             if (a.toLowerCase() > b.toLowerCase()) return 1;
+    //             return 0;
+    //         });
+    //         songsArray.forEach(function (song) {
+    //             let option = document.createElement("option");
+    //             option.value = song;
+    //             option.innerHTML = song;
+    //             filterSelect.appendChild(option);
+    //         });
+    //     }
+    // }
+    // updateFilter();
+    // formSelect.addEventListener("change", updateFilter);
+    // d3.select("#filterButton").on("click", function () {
+    //     if (isClicked) return;
+    //     line.selectAll(".line").remove();
+    //     lineFilter(filter = filterSelect.value, filterType = formSelect.value.toLowerCase());
+    //     resizeGraph(firstDate, lastDate, reset = true);
+    // });
 
     d3.select("#line_graph").on("dblclick", function () { //doubleclick
         if (isClicked) return;
