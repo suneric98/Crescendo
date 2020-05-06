@@ -9,6 +9,7 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 + Eric: got dataset, got features from Spotify
 + Kathy: data exploration, changed types of dataset
 + Chris: data exploration and cleaning
++ Angela: data exploration
 
 ### 2/29
 
