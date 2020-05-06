@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post" novalidate>
+    {{form.hidden_tag()}}
+    <div class="row justify-content-center">
+        <div class="form-group">
+            <label for="filterSelect" class="mx-sm-3 mb-2 px-3 mx-3">Song Name</label>
+            {{ form.song(class_="form control") }}
+        </div>
+    </div>
+    <div class="row form-inline justify-content-center">
+        <div class="form-group">
+            <label for="artistSelect" class="mx-sm-3 mb-2 px-3 mx-3">Artist </label>
+            {{ form.artist(class_="form control") }}
+        </div>
+        {{form.submit(class_="btn btn-primary mb-2")}}
+    </div>
+</form>
+
+{% if error %}
+<div class="row justify-content-center header">
+    Error: couldn't find song on Spotify's API
+</div>
+{% endif %}
+
+{% if result %}
+<div class="row justify-content-center header">
+    <h1>
+        We predict this song will stay in the top 200
+        chart for {{ result }} days
+    </h1>
+</div>
+{% endif %}
+{% endblock %}

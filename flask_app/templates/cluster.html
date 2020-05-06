@@ -153,8 +153,10 @@
     circles.on("mouseout", function (d) {
       tooltip.transition()
         .duration(200)
-        .style("opacity", 0);
-      tooltip.html("");
+        .style("opacity", 0)
+        .on("end", function(){
+          tooltip.html("");
+        });
     });
     circles.on("mouseover.brush1", function (d) {
       circles.filter(e => (d.Label !== e.Label)).transition().style("fill", "#bbbbbb");

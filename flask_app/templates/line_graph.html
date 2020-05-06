@@ -17,27 +17,20 @@
 {% endblock %}
 
 {% block content %}
-  <div class= "justify-content-center">
-    <h1 class="text-center">Line Graph Visualization</h1>
-  </div>
+<form action="" method="post" novalidate>
+  {{form.hidden_tag()}}
   <div class="row form-inline justify-content-center">
     <div class="form-group mb-2">
-      <label for="formSelect mx-sm-3 mb-2">Sort by </label>
-      <select class="form-control" id="formSelect">
-        <option>Artist</option>
-        <option>Song</option>
-      </select>
+      <label for="filterSelect" class="mx-sm-3 mb-2 px-3 mx-3">Select an Artist </label>
+      {{ form.artists(class_="form-control")}}
     </div>
-    <div class="form-group mb-2">
-      <label for="filterSelect mx-sm-3 mb-2"></label>
-      <select class="form-control" id="filterSelect">
-      </select>
-    </div>
-    <button id="filterButton" type="submit" class="btn btn-primary mb-2">Filter</button>
+    {{form.submit(class_="btn btn-primary mb-2")}}
   </div>
-  <div id="line_graph" class = "row justify-content-center"></div>
-  <script type="text/javascript">
-    var chartData = {{ data.chart_data | safe }};
-  </script>
-  <script src="{{ url_for('static', filename='vis.js') }}"></script>
+</form>
+
+<div id="line_graph" class = "row justify-content-center"></div>
+<script type="text/javascript">
+  var chartData = {{ data.chart_data | safe }}
+</script>
+<script src="{{ url_for('static', filename='vis.js') }}"></script>
 {% endblock %}
