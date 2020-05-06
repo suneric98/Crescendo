@@ -1,15 +1,14 @@
-import json
+from json import load, dumps
 import pickle
-import sklearn
+from numpy import exp
+from spotify import Spotify
 
 from flask import Flask, render_template, flash, redirect
-from flask_bootstrap import Bootstrap
 import pandas as pd
-from forms import songDropDown, artistDropDown
+from forms import songDropDown, artistDropDown, songInput
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "a_secret_key"
-Bootstrap(app)
 
 @app.route("/")
 def index():
@@ -21,27 +20,23 @@ def about():
 
 @app.route("/line_graph/", methods=["GET","POST"])
 def line_graph():
-    # df = pd.read_csv('data/line_vis_data.csv')
-    # chart_data = df.to_dict(orient='records')
-    # chart_data = json.dumps(chart_data, indent=2)
-    # data = {"chart_data":chart_data}
     form = artistDropDown()
     with open("data/line_vis_json.json") as f:
-        data = json.load(f)
+        data = load(f)
         if form.validate_on_submit():
             artist = form.artists.data
-            chart_data = json.dumps(data[artist], indent=2)
+            chart_data = dumps(data[artist], indent=2)
             data = {"chart_data":chart_data}
             return render_template("line_graph.html", form=form, data = data)
-        # chart_data = json.dumps(data[list(data.keys())[0]], indent=2)
-        data = {"chart_data":json.dumps([])}
+        # chart_data = dumps(data[list(data.keys())[0]], indent=2)
+        data = {"chart_data":dumps([])}
         return render_template("line_graph.html", form=form, data=data)
 
 @app.route("/cluster/")
 def cluster():
     df = pd.read_csv("data/TopCharts_clustered.csv")
     chart_data = df.to_dict(orient="records")
-    chart_data = json.dumps(chart_data, indent=2)
+    chart_data = dumps(chart_data, indent=2)
     data = {"chart_data":chart_data}
     return render_template("cluster.html", data=data)
 
@@ -49,25 +44,42 @@ def cluster():
 def artist_cluster():
     df = pd.read_csv("data/ArtistData_clustered_pca.csv")
     chart_data = df.to_dict(orient="records")
-    chart_data = json.dumps(chart_data, indent=2)
+    chart_data = dumps(chart_data, indent=2)
     data = {"chart_data":chart_data}
     return render_template("artist_cluster.html", data=data)
 
 @app.route("/num_days/", methods=["GET","POST"])
 def num_days():
-    form = artistDropDown()
+    form = songInput()
     if form.validate_on_submit():
-        flash("Worked for {}".format(form.artists.data))
-        return redirect("/num_days")
+        s = Spotify()
+        data = s.getFeats(form.song.data, form.artist.data)
+        if len(data) == 0:
+            error = True
+            return render_template("num_days.html", form=form, error=error)
+        clf = pickle.load(open("data/adaboost_model.sav", 'rb'))
+        numKeys = 12
+        numModes = 2
+        feats = []
+        featNames = ['tempo', 'valence', 'danceability', 'energy', 'acousticness', "followers", "popularity", 'key', 'mode']
+        for key in featNames:
+            value = data[key]
+            if key == "key":
+                keys = [0] * numKeys
+                keys[value] = 1
+                feats.extend(keys)
+            elif key == "mode":
+                modes = [0] * numModes
+                modes[value] = 1
+                feats.extend(modes)
+            else:
+                feats.append(value)
+        print("FEATS!")
+        print(feats)
+        result = exp(clf.predict([feats]))[0]
+        print(result)
+        return render_template("num_days.html", form=form, result=result)
     return render_template("num_days.html", form=form)
-    # clf2 = pickle.load(open("data/adaboost_model.sav", 'rb'))
-    # params = ['Tempo', 'Valence', 'Danceability', 'Energy', 'Acousticness',
-    #    'Artist Followers', 'Artist Popularity', 'Key_0', 'Key_1', 'Key_2',
-    #    'Key_3', 'Key_4', 'Key_5', 'Key_6', 'Key_7', 'Key_8', 'Key_9', 'Key_10',
-    #    'Key_11', 'Mode_0', 'Mode_1']
-    # print("CLF")
-    # print(clf2)
-    # print(clf2.predict([[0] * len(params)]))
 
 if __name__ == "__main__":
     app.run(debug=True)
