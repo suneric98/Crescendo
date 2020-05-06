@@ -148,8 +148,10 @@
         circles.on("mouseout", function (d) {
             tooltip.transition()
                 .duration(200)
-                .style("opacity", 0);
-            tooltip.html("");
+                .style("opacity", 0)
+                .on("end",function(){
+                    tooltip.html("");
+                });
         });
 
 
