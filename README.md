@@ -32,7 +32,7 @@ A Spotify application analyzing Spotify top songs. This application focuses on i
 number of days a song remains in top chart
 + Chris: modularized clustering notebook file
 + Angela: Gained knowledge about clustering KNN, Kmeans, neural networks, linear regression.
-+Kathy: Converted column types to floats and integers and created a new csv file.
++ Kathy: Converted column types to floats and integers and created a new csv file.
 Continued to build a linear regression model to predict the rank of a song based on the number of streams.
 
 
