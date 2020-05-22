@@ -3,3 +3,4 @@ flask
 matplotlib
 flask-bootstrap
 flask-wtf
+spotify

@@ -1,4 +1,5 @@
 from json import load, dumps
+import xgboost
 import pickle
 from numpy import exp
 from spotify import Spotify
@@ -74,10 +75,11 @@ def num_days():
                 feats.extend(modes)
             else:
                 feats.append(value)
-        print("FEATS!")
-        print(feats)
-        result = exp(clf.predict([feats]))[0]
-        print(result)
+        columns = ['Tempo', 'Valence', 'Danceability', 'Energy', 'Acousticness', 'Artist Followers', 'Artist Popularity', 'Key_0', 'Key_1', 'Key_2', 'Key_3', 'Key_4', 'Key_5', 'Key_6', 'Key_7', 'Key_8', 'Key_9', 'Key_10', 'Key_11', 'Mode_0', 'Mode_1']
+        df = pd.DataFrame(columns=columns)
+        df.loc[0] = feats
+        print(df)
+        result = exp(clf.predict(df))[0]
         return render_template("num_days.html", form=form, result=result)
     return render_template("num_days.html", form=form)
 

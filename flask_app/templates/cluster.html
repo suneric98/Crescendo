@@ -131,6 +131,7 @@
       tooltip.transition()
         .duration(200)
         .style("opacity", 0.9);
+      tooltip.html("");
 
       let rows = tooltip.append("table")
         .selectAll("tr")
